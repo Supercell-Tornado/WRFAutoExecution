@@ -1,0 +1,27 @@
++ [ARWpostonly_builtin.sh: 57] '[' 2 = 1 ']'
++ [ARWpostonly_builtin.sh: 79] '[' 2 = 2 ']'
++ [ARWpostonly_builtin.sh: 80] source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/ARWpostonly_components/arwpost_domainnumber2
+++ [arwpost_domainnumber2: 4] source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/ARWpostonly_components/sharefunction
+++ [arwpost_domainnumber2: 5] source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/ARWpostonly_components/arw_resultsay
+++ [arwpost_domainnumber2: 7] cd /home/inokuchi/WRFV3.7.1/ARWpost
+++ [arwpost_domainnumber2: 13] (( i=1 ))
+++ [arwpost_domainnumber2: 13] (( i<=2 ))
+++ [arwpost_domainnumber2: 15] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 15] echo 'Now We in the /home/inokuchi/WRFV3.7.1/ARWpost Directory...'
+++ [arwpost_domainnumber2: 17] export i
+++ [arwpost_domainnumber2: 18] '[' 1 = 1 ']'
+++ [arwpost_domainnumber2: 20] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 20] echo -e '\n11111111111111111111~~ arwpost_domainnumber2 ~~11111111111111111111\n'
+++ [arwpost_domainnumber2: 22] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 22] echo ========namelist.ARWpost========
+++ [arwpost_domainnumber2: 23] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 23] grep input_root_name /home/inokuchi/WRFV3.7.1/ARWpost/namelist.ARWpost
+++ [arwpost_domainnumber2: 24] grep output_root_name /home/inokuchi/WRFV3.7.1/ARWpost/namelist.ARWpost
+++ [arwpost_domainnumber2: 24] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 25] echo ================================
+++ [arwpost_domainnumber2: 25] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 27] echo -e '\n==============ARWpost Log==============\n'
+++ [arwpost_domainnumber2: 27] tee -a /mnt/drobo/inokuchi/WRFV3.7.1/work/gustFNLnocuphys/arwpost_only.log
+++ [arwpost_domainnumber2: 30] arwpost_pid=13061
+++ [arwpost_domainnumber2: 29] nohup /home/inokuchi/WRFV3.7.1/ARWpost/ARWpost.exe
+++ [arwpost_domainnumber2: 31] wait 13061

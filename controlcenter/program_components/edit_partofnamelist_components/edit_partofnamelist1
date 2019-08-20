@@ -1,0 +1,90 @@
+#!/bin/bash
+#####################################################################################################
+#####################################################################################################
+function replacevalue() {
+valuename=$1
+line_number_valuename=$(grep -n "${valuename}" ${DOMAINDIR}/${PROJECT}/namelist.input | sed -e 's/:.*//g')
+prevalue=$(awk 'NR=='${line_number_valuename}'' ${NAMELIST})
+value="$2"
+sed -i -e "s@${prevalue}@${value}@g" ${NAMELIST}
+}
+#####################################################################################################
+#####################################################################################################
+
+echo "******1******"
+###########################################
+replacevalue 'run_hours' "run_hours                = ${runhour},"
+###########################################
+replacevalue 'start_year' "start_year               = ${year},"
+replacevalue 'start_month' "start_month              = ${month},"
+replacevalue 'start_day' "start_day                = ${firstdomsday},"
+replacevalue 'start_hour' "start_hour               = ${firstdomshour},"
+###########################################
+replacevalue 'end_year' "end_year                 = ${year},"
+replacevalue 'end_month' "end_month                = ${month},"
+replacevalue 'end_day' "end_day                  = ${eday},"
+replacevalue 'end_hour' "end_hour                 = ${ehour},"
+###########################################
+replacevalue 'interval_seconds' "interval_seconds         = 21600,"
+replacevalue 'history_interval' "history_interval         = 5,"
+replacevalue 'frames_per_outfile' "frames_per_outfile       = 1000,"
+###########################################
+#[insert the information about wrfout file PATH]
+line_number_frames_per_outfile=$(grep -n "frames_per_outfile" ${NAMELIST} | sed -e 's/:.*//g')
+line_number_history_outname=$(grep -n "history_outname" ${NAMELIST} | sed -e 's/:.*//g')
+OutPATH=$(awk 'NR=='${line_number_history_outname}'' ${NAMELIST} 2>/dev/null)
+#[[ =~ ]]で正規表現マッチ
+if [[ ${OutPATH} =~ "history_outname" ]]; then
+  echo "the letter of history_outname is exsisting!"
+else
+  sed -i -e "${line_number_frames_per_outfile}a\history_outname          = ${WORKDIR}/wrfout_d<domain>_<date>," ${NAMELIST}
+fi
+###########################################
+replacevalue 'e_vert' "e_vert                   = 52,"
+
+line_number_e_vert=$(grep -n "e_vert" ${NAMELIST} | sed -e 's/:.*//g')
+line_number_eta_levels=$(grep -n "eta_levels" ${NAMELIST} | sed -e 's/:.*//g')
+EtaLevel=$(awk 'NR=='${line_number_eta_levels}'' ${NAMELIST} 2>/dev/null)
+if [[ ${EtaLevel} =~ "eta_levels" ]]; then
+  echo "the letter of eta_levels is exsisting!"
+else
+  sed -i -e "${line_number_e_vert}a\eta_levels               = 1.000, 0.9948, 0.9896, 0.9844, 0.9793,\n\
+                 0.9741, 0.9688, 0.9631, 0.957, 0.9505, \n\
+                 0.9436, 0.936, 0.9278, 0.9188, 0.9089, \n\
+                 0.8979, 0.8858, 0.8723, 0.8574, 0.8409, \n\
+                 0.8226, 0.8024, 0.7803, 0.7561, 0.7299, \n\
+                 0.7018, 0.6717, 0.6399, 0.6067, 0.5722, \n\
+                 0.5369, 0.5009, 0.4648, 0.4289, 0.3933, \n\
+                 0.3585, 0.3247, 0.2921, 0.2609, 0.2311, \n\
+                 0.2029, 0.1764, 0.1515, 0.1257, 0.1043, \n\
+                 0.0848, 0.0671, 0.0509, 0.0362, 0.0229, \n\
+                 0.0109, 0.000\n\
+," ${NAMELIST}
+fi
+###########################################
+replacevalue 'p_top_requested' "p_top_requested          = 5000,"
+replacevalue 'num_metgrid_levels' "num_metgrid_levels       = 32,"
+###########################################
+replacevalue 'mp_physics' "mp_physics               = 6,"
+replacevalue 'bl_pbl_physics' "bl_pbl_physics           = ${PBLscheme},"
+###########################################
+
+echo "******1******"
+echo -e "
+
+focus on following...
+run_days
+start_day
+start_hour
+\n
+(In case of nesting simulation with different start times for each domain)
+fine_input_stream
+io_form_auxinput2
+
+time_step
+feedback
+cu_physics
+w_damping"
+exit;
+#####################################################################################################
+

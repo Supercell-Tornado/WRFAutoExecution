@@ -1,0 +1,27 @@
+#!/bin/bash
+function debug_func() {
+exec 5> ${PROGRAMplace}/debug_output.log
+BASH_XTRACEFD="5"
+#PS4='+ [${BASH_SOURCE}:${LINENO}] ${FUNCNAME:+$FUNCNAME(): }'
+PS4='+ [$(basename ${BASH_SOURCE}): ${LINENO}] ${FUNCNAME:+$FUNCNAME(): }'
+set -x
+}
+
+f()
+{
+    { local xtrace_=+x; test -o xtrace && xtrace_=-x; set -x; } 2>/dev/null
+    #command # xtrace
+    command=$1
+    ${command}
+    { local xtrace_r=$?; set $xtrace_; return $xtrace_r; } 2>/dev/null
+}
+
+g() 
+{
+    { local xtrace_=+x; test -o xtrace && xtrace_=-x; set +x; } 2>/dev/null
+    #command # NOT xtrace
+    command=$1
+    ${command}
+    { local xtrace_r=$?; set $xtrace_; return $xtrace_r; } 2>/dev/null
+}
+

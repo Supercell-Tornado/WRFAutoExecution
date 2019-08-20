@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+#=== [ drobo user ] ======================================#
+# if you are Not drobo user, please comment out the following line,
+# and then, you should set WORK_DIR PATH adequately!
+#
+export DROBO_WRF_HOME="/mnt/drobo/inokuchi/WRFV3.7.1"
+#=========================================================#
+#
+#== [Directory Settings] =================================#
+export DOMAIN_DIR=${WRF_HOME}/domain/${PROJECT}
+# < the directory of putting into the wrfout files >
+#export WORK_DIR=${WRF_HOME}/work/${PROJECT}
+export WORK_DIR=${DROBO_WRF_HOME}/work/${PROJECT}
+#(the directory place of namelist.ARWpost which you should use)
+export ARWPOSTEXEDIR=${WRF_HOME}/ARWpost
+export GrADS_TOOL_DIR=$HOME/Tools/grads
+export GrADS_COLORING_DIR=${GrADS_TOOL_DIR}/coloring
+#Log file name
+export Logfile_name="wrf-pj-automatic.log"
+#=========================================================#
+
+

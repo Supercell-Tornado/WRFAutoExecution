@@ -1,0 +1,76 @@
+#!/bin/bash
+#####################################################################################################
+#Edit to namelist.wps
+NAMELISTWPS=${DOMAINDIR}/${PROJECT}/namelist.wps
+#############################
+###wps_starthour setting for each domain
+if [ ${domainnumber} = 1 ]
+then wps_1d_shour=${firstdomshour}
+elif [ ${domainnumber} = 2 ]; then
+wps_1d_shour=${firstdomshour}
+wps_2d_shour=${seconddomshour}
+elif [ ${domainnumber} = 3 ]; then
+wps_1d_shour=${firstdomshour}
+wps_2d_shour=${seconddomshour}
+wps_3d_shour=${thirddomshour}
+elif [ ${domainnumber} = 4 ]; then
+wps_1d_shour=${firstdomshour}
+wps_2d_shour=${seconddomshour}
+wps_3d_shour=${thirddomshour}
+wps_4d_shour=${fourthdomshour}
+else
+wps_1d_shour=${firstdomshour}
+wps_2d_shour=${seconddomshour}
+wps_3d_shour=${thirddomshour}
+wps_4d_shour=${fourthdomshour}
+fi
+wps_ehour=${ehour}
+################################################
+#
+######Start Date######
+###pre_start_date
+line_number_start_date=$(grep -n "start_date" ${NAMELISTWPS} | sed -e 's/:.*//g')
+pre_wps_start_date=$(awk 'NR=='${line_number_start_date}'' ${NAMELISTWPS})
+###start_date
+if [ ${domainnumber} = 1 ]; then
+wps_start_date=" start_date = '${year}-${month}-${firstdomsday}_${wps_1d_shour}:00:00',"
+elif [ ${domainnumber} = 2 ]; then
+wps_start_date=" start_date = '${year}-${month}-${firstdomsday}_${wps_1d_shour}:00:00', '${year}-${month}-${seconddomsday}_${wps_2d_shour}:00:00',"
+elif [ ${domainnumber} = 3 ]; then
+wps_start_date=" start_date = '${year}-${month}-${firstdomsday}_${wps_1d_shour}:00:00', '${year}-${month}-${seconddomsday}_${wps_2d_shour}:00:00', '${year}-${month}-${thirddomsday}_${wps_3d_shour}:00:00',"
+elif [ ${domainnumber} = 4 ]; then
+wps_start_date=" start_date = '${year}-${month}-${firstdomsday}_${wps_1d_shour}:00:00', '${year}-${month}-${seconddomsday}_${wps_2d_shour}:00:00', '${year}-${month}-${thirddomsday}_${wps_3d_shour}:00:00', '${year}-${month}-${fourthdomsday}_${wps_4d_shour}:00:00',"
+else
+wps_start_date=" start_date = '${year}-${month}-${firstdomsday}_${wps_1d_shour}:00:00', '${year}-${month}-${seconddomsday}_${wps_2d_shour}:00:00', '${year}-${month}-${thirddomsday}_${wps_3d_shour}:00:00', '${year}-${month}-${fourthdomsday}_${wps_4d_shour}:00:00',"
+fi
+######Start Date######
+#
+######End Date######
+###pre_end_date
+line_number_end_date=$(grep -n "end_date" ${NAMELISTWPS} | sed -e 's/:.*//g')
+pre_wps_end_date=$(awk 'NR=='${line_number_end_date}'' ${NAMELISTWPS})
+if [ ${domainnumber} = 1 ]; then
+wps_end_date=" end_date   = '${year}-${month}-${eday}_${wps_ehour}:00:00',"
+elif [ ${domainnumber} = 2 ]; then
+wps_end_date=" end_date   = '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00',"
+elif [ ${domainnumber} = 3 ]; then
+wps_end_date=" end_date   = '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00',"
+elif [ ${domainnumber} = 4 ]; then
+wps_end_date=" end_date   = '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00',"
+else
+wps_end_date=" end_date   = '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00', '${year}-${month}-${eday}_${wps_ehour}:00:00',"
+fi
+######End Date######
+#
+###replacement
+sed -i -e "s@${pre_wps_start_date}@${wps_start_date}@g" ${NAMELISTWPS}
+sed -i -e "s@${pre_wps_end_date}@${wps_end_date}@g" ${NAMELISTWPS}
+################################################
+echo ""
+echo "****************************************************"
+echo "Please confirm the number of date(=domain number)"
+cat ${NAMELISTWPS} | grep "start_date"
+cat ${NAMELISTWPS} | grep "end_date"
+echo "****************************************************"
+#####################################################################################################
+

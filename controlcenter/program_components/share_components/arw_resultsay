@@ -1,0 +1,56 @@
+#!/bin/bash
+########################################################################################################
+########################################################################################################
+function _arw_number_definition_() {
+  prenumberarw=$((i-1))
+  presentnumberarw=${i}
+  echo "Present Domain Number is ${presentnumberarw}" | ${Log}
+}
+
+function present_resultnum_definition() {
+resultnum_for_presentarw=$(grep -n "Successful completion of ARWpost" ${LogFile} | sed -e "s@:\!  Successful completion of ARWpost  \!@@g" | sed "1,$((i-1))d")
+}
+#######################################################
+###Success or NOT for presentnumberarw(Present Number of ARWpost)
+function SorF(){
+  if [ -z "$1" ]; then
+    echo -e "ARWpost Process ${presentnumberarw} is Failure...\nStopped" | ${Log}; now_result="F"; exit
+  else
+    echo -e "ARWpost Process ${presentnumberarw} is Successful...!\n"    | ${Log}; now_result="S";
+  fi
+}
+########################################################################################################
+########################################################################################################
+###[i=1]
+function _firstarw_result_() {
+  _arw_number_definition_
+  #line number of "Successful completion of ARWpost"(for first ARWpost Job)
+  first_num=$(grep -n "Successful completion of ARWpost" ${LogFile} | sed -e "s@:\!  Successful completion of ARWpost  \!@@g")
+  #Based on ${first_num}, We can distinguish Success or Failure
+  SorF "${first_num}"
+}
+###[i=2]
+function _secondarw_result_() {
+  _arw_number_definition_
+  #result number for second ARWpost
+  present_resultnum_definition; second_num=${resultnum_for_presentarw}
+  #say result
+  SorF "${second_num}"
+}
+###[i=3]
+function _thirdarw_result_() {
+  _arw_number_definition_
+  #result number for third ARWpost
+  present_resultnum_definition; third_num=${resultnum_for_presentarw}
+  #say result
+  SorF "${third_num}"
+}
+###[i=4]
+function _fourtharw_result_() {
+  _arw_number_definition_
+  #result number for fourth ARWpost
+  present_resultnum_definition; fourth_num=${resultnum_for_presentarw}
+  #say result
+  SorF "${fourth_num}"
+}
+

@@ -1,0 +1,48 @@
+#!/bin/bash
+#######################################################################
+#[replacement of inputrootname and outputrootname(for i>1)]
+function _namereplacement_ () {
+  echo -e "\n******************sharefunction******************\n" | ${Log}
+  echo "[Rename the input_root_name and output_root_name in the namelist.ARWpost file]" | ${Log}
+  echo "preinputroot = "${preinputroot}" => inputrootname = "${inputrootname} | ${Log}
+  echo "preoutputroot = "${preoutputroot}" => outputrootname = "${outputrootname} | ${Log}
+  echo -e "\n[Result(namelist.ARWpost file)]" | ${Log}
+  #echo $PWD
+  #maybe...wait command should be used second times because background jobs is executed at the same time, and the fast executed job is took priority(it can't be written in parallel)!!!
+  { sed -i -e "s*${preinputroot}*${inputrootname}*g" ${ARWPOSTEXEDIR}/namelist.ARWpost | echo $?; } &
+  wait
+  { sed -i -e "s@${preoutputroot}@${outputrootname}@g" ${ARWPOSTEXEDIR}/namelist.ARWpost | echo $?; } &
+  wait
+  { echo "inputrootname is "$(grep "input_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | sed -e "s@ input_root_name = @@") | ${Log}; } &
+  wait
+  { echo "outputrootname is "$(grep "output_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | sed -e "s@ output_root_name = @@") | ${Log}; } &
+  wait
+  echo -e "\n******************sharefunction******************\n" | ${Log}
+}
+
+#[continue or stop(mainly)]
+function _confirmation_ () {
+  local confirm
+  read confirm
+  if [ "$confirm" != "yes" ]; then
+    echo "Stoped"
+    exit;
+  fi
+}
+
+#[log output when the process was failure]
+function _failureoutlog_ () {
+if [ "$?" != "0" ]; then
+  echo -e "the $1 job is failure... \n
+  Stoped" | ${Log}
+  exit;
+fi
+}
+
+#[success or failure]
+function _resultjob_ () {
+  echo -e "the execution of $1 is $? \n\nif this value is... 0 => success , 1 => failure\n$1 job is excuted completely!" | ${Log}
+}
+
+#function
+#######################################################################

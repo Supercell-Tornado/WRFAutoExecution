@@ -1,0 +1,27 @@
+#!/bin/bash
+################################################################
+#echo -n "Do you want to execute real.exe?[yes/no]:"
+echoncyan "Do you want to execute real.exe?[yes/no]:"
+read realconfirmation
+if [ "$realconfirmation" = "yes" ]; then
+    #[excute real.exe]
+    cd ${WORKDIR}
+    echo -e "We moved to $(echo $(pwd))!!!\n" | ${Log}
+    echo -e "We will execute real.exe...\n" | ${Log}
+    ${WRF_HOME}/WRFV3/run/real.exe
+    
+    _failureoutlog_ real.exe
+    _resultjob_ real.exe
+else
+    echonyellow "Do you want to preceed?[yes/no]:"
+    _confirmation_
+fi
+################################################################
+#[rename of rsl files]
+cd ${WORKDIR}
+mv rsl.error.0000 real_error.0000
+mv rsl.out.0000 real_out.0000
+echo ""
+echo ""
+################################################################
+

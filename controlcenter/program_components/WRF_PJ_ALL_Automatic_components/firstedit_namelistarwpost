@@ -1,0 +1,57 @@
+#!/bin/bash
+################################################################
+#[confirmation of wrf.exe and ARWpost.exe jobs](before editing namelist.ARWpost)
+echo -e "\nWe want to move execution of wrf.exe (run wrf-ARWpost-builtin.sh)\nHowever...\n"
+echoul "First, We have to edit namelist.ARWpost File for parent domain by using this script..."
+echoul "( After this editing, we will execute wrf-ARWpost-builtin.sh )\n"
+echoncyan "Are you sure to edit namelist.ARWpost for parent domain?[yes/no]:"
+_confirmation_
+_namelistarw_confirmation_and_interpolation_
+################################################################
+#[first Edit to namelist.ARWpost(to confirm)]
+#
+#[get the information of prepj_inout PATH]**********************
+prepj_inputroot=$(grep "input_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | sed -e "s@ input_root_name = @@")
+prepj_outputroot=$(grep "output_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | sed -e "s@ output_root_name = @@")
+#***************************************************************
+#
+################################################################
+echo -e "\n+++Editing for Parent Domain+++\n" | ${Log}
+echo "*********Confirmation of Veriables for Editing*********" | ${Log}
+echo "prepj_inputroot is ${prepj_inputroot}" | ${Log}
+echo "prepj_outputroot is ${prepj_outputroot}" | ${Log}
+inputrootname="'"${WORKDIR}/wrfout_d01_${year}"\-"${month}"\-"${day}_${firstdomainstarthour}:00:00"'"
+outputrootname="'"${WORKDIR}/grads/${year}${month}${day}${PROJECT}d01"'"
+echo "inputrootname is ${inputrootname}" | ${Log}
+echo "outputrootname is ${outputrootname}" | ${Log}
+echo "*********Confirmation of Veriables for Editing*********" | ${Log}
+echo ""
+#[Execution of Editing(and result)]
+{ sed -i -e "s@${prepj_inputroot}@${inputrootname}@g" ${ARWPOSTEXEDIR}/namelist.ARWpost | echo "Result of editing for first input is $?" | ${Log}; } &
+wait
+{ sed -i -e "s%${prepj_outputroot}%${outputrootname}%g" ${ARWPOSTEXEDIR}/namelist.ARWpost | echo "Result of editing for first output is $?" | ${Log}; } &
+wait
+#wait $pid1 $pid2
+echo -e "
+|  0  | success |
+|  1  | failure |
+|other| failure |
+" | ${Log}
+#
+echo -e "\n"
+echo "
+*******************************************************
+*  Please confirm following namelist.ARWpost file...  *
+*******************************************************" | ${Log}
+sleep 3
+################################################################
+echo -e "\n
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%namelist.ARWpost%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n" | ${Log}
+cat ${ARWPOSTEXEDIR}/namelist.ARWpost | ${Log}
+echo -e "\n
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%namelist.ARWpost%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n" | ${Log}
+################################################################

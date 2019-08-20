@@ -1,0 +1,141 @@
+#!/bin/bash
+############################################################################
+source ${SharePROGRAMplace}/sharefunction
+source ${SharePROGRAMplace}/arw_resultsay
+############################################################################
+cd ${ARWPOSTEXEDIR}
+############################################################################
+#ARWpost Jobs for every domain data
+#[1]Editing namelist.ARWpost file
+#[2]Execution of ARWpost.exe
+############################################################################
+# functions 
+#
+
+#[Display the information(for confirmation)]##
+function _display_ioroot_info_ () {
+    echo "======== namelist.ARWpost ========" | ${Log}
+    grep "input_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | ${Log}
+    grep "output_root_name" ${ARWPOSTEXEDIR}/namelist.ARWpost | ${Log}
+    echo "==================================" | ${Log}
+}
+
+
+#[execution of ARWpost.exe]
+function _ARWpostExecution_ () {
+  echo -e "\n============== ARWpost Log ==============\n" | ${Log}
+  { ${ARWPOSTEXEDIR}/ARWpost.exe 2>&1 | ${Log}; } &
+  arwpost_pid=$!
+  wait ${arwpost_pid}
+  resultvalue=$?; export resultvalue
+  echo -e "\n============== ARWpost Log ==============\n" | ${Log}
+  echo "job number ${i} process among the ARWpost.exe jobs is finished..." | ${Log}
+}
+
+#[say the result of each ARWpost process]
+function _arwresultsay_ () {
+  if [ ${resultvalue} != 0 ]; then
+    echo "Return Value is ${resultvalue}" | ${Log}
+    echo -e "job number ${i} among the ARWpost.exe jobs is failure... \n
+    Stoped" | ${Log}
+    exit;
+  fi
+  echo -e "the execution of job number ${i} among ARWpost.exe is ${resultvalue}\n
+  if this value is... 0 => success , 1 => failure" | ${Log}
+  echo -e "\n" | ${Log}
+}
+
+# domain 1 Execution
+function _fdom_exe_() {
+    #[Display the information(for confirmation)]##
+    _display_ioroot_info_
+
+    #[Execution]##################################
+    echo -e "\n============== ARWpost Log ==============\n" | ${Log}
+#    { ${ARWPOSTEXEDIR}/ARWpost.exe 2>&1 | ${Log}; } &
+    { nohup ${ARWPOSTEXEDIR}/ARWpost.exe >& ${LogFile}; } &
+    arwpost_pid=$!
+    wait ${arwpost_pid}
+    resultvalue=$?; export resultvalue
+    echo -e "\n============== ARWpost Log ==============\n" | ${Log}
+    echo "job number ${i} process among the ARWpost.exe jobs is finished..." | ${Log}
+    export i=1
+}
+
+
+# Common processing between domain 2, 3, 4
+function _arwpost_common_exe_ () {
+    #[definition of variables]####################
+    presentdomain=d0${i}
+    predomainnumber=$((i-1))
+    predomain=d0${predomainnumber}
+    preinputroot="'"${WORKDIR}/wrfout_${predomain}_${year}"\-"${month}"\-"${day}_$1:00:00"'"
+    preoutputroot="'"${WORKDIR}/grads/${year}${month}${day}${PROJECT}${predomain}"'"
+    inputrootname="'"${WORKDIR}/wrfout_${presentdomain}_${year}"\-"${month}"\-"${day}_$2:00:00"'"
+    outputrootname="'"${WORKDIR}/grads/${year}${month}${day}${PROJECT}${presentdomain}"'"
+    #[Execution]##################################
+    _namereplacement_
+    # show the info of variables
+    _display_ioroot_info_
+    
+    _ARWpostExecution_
+}
+
+############################################################################
+
+
+
+for ((i=1; i<=${domainnumber}; i++))
+do
+  echo "Now We in the ${PWD} Directory..." | ${Log}
+  #echo ${i} | ${Log}
+  export i
+
+  case ${i} in
+    1)
+      ############################################################################
+      echo -e "\n11111111111111111111~~ arwpost_domainnumber ~~11111111111111111111\n" | ${Log}
+      _fdom_exe_
+      #_arwresultsay_
+      _firstarw_result_
+      echo -e "\n11111111111111111111~~ arwpost_domainnumber ~~11111111111111111111\n" | ${Log}
+      ############################################################################
+      ;;
+    2)
+      ############################################################################
+      echo -e "\n22222222222222222222~~ arwpost_domainnumber ~~22222222222222222222\n" | ${Log}
+      _arwpost_common_exe_ ${firstdomainstarthour} ${seconddomainstarthour}
+      #_arwresultsay_
+      _secondarw_result_
+      echo -e "\n22222222222222222222~~ arwpost_domainnumber ~~22222222222222222222\n" | ${Log}
+      ############################################################################
+      ;;
+    3)
+      ############################################################################
+      echo -e "\n33333333333333333333~~ arwpost_domainnumber ~~33333333333333333333\n" | ${Log}
+      _arwpost_common_exe_ ${seconddomainstarthour} ${thirddomainstarthour}
+      #_arwresultsay_
+      _thirdarw_result_
+      echo -e "\n33333333333333333333~~ arwpost_domainnumber ~~33333333333333333333\n" | ${Log}
+      ############################################################################
+      ;;
+    4)
+      ############################################################################
+      echo -e "\n44444444444444444444~~ arwpost_domainnumber ~~44444444444444444444\n" | ${Log}
+      _arwpost_common_exe_ ${thirddomainstarthour} ${fourthdomainstarthour}
+      #_arwresultsay_
+      _fourtharw_result_
+      echo -e "\n44444444444444444444~~ arwpost_domainnumber ~~44444444444444444444\n" | ${Log}
+      ############################################################################
+      ;;
+    *)
+      ############################################################################
+      echo -e "Strange Processing\n
+      Stopped" | ${Log}
+      exit;
+      ############################################################################
+      ;;
+  esac
+
+done
+

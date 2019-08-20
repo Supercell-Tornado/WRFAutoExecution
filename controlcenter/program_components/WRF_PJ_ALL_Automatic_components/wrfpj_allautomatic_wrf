@@ -1,0 +1,42 @@
+#!/bin/bash
+##############################################################################
+#
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#% [ when you see massage that meaning that openib(OpenFabrics) is nothing ] %
+#%  Please set the following environmental parameter in ~/.bash_profile      %
+#%      [the inserted row to be]: export OMPI_MCA_btl=^openib                %
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if [ -z "${OMPI_MCA_btl}" ];then echo -e "There is no 'OMPI_MCA_btl' environmental variable...\nStopped" | ${Log};sleep 5; exit; fi
+#***btl_option_insertion="--mca btl ${OMPI_MCA_btl}"
+##############################################################################
+
+cd $WORKDIR
+################################################################
+#[excute wrf.exe]
+echo -e "We will execute wrf.exe...
+\n
+\n
+please confirm the situation of wrf.exe
+cd ${WORKDIR}
+tail -f rsl.out.0000
+tail -f rsl.error.0000"
+echo -e "\n=========== wrf.exe ===========\n" | ${Log}
+#==============================================================#
+mpirun -np ${mpi_calculation_number} ${WRF_HOME}/WRFV3/run/wrf.exe &
+#*** mpirun ${btl_option_insertion} -np ${mpi_calculation_number} ${WRF_HOME}/WRFV3/run/wrf.exe &
+#==============================================================#
+wait
+wrf_result=$?
+#export wrf_result
+echo -e "\n=========== wrf.exe ===========\n" | ${Log}
+if [ ${wrf_result} != 0 ]; then
+  echo -e "the wrf.exe job is failure... \n
+  Stoped" | ${Log}
+  exit;
+fi
+echo -e "the execution of wrf.exe is ${wrf_result} \n
+if this value is... 0 => success , 1 => failure\n
+wrf.exe job is finished !!!!!!\n
+\n" | ${Log}
+################################################################
+

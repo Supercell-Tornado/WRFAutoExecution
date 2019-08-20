@@ -1,0 +1,101 @@
+#!/bin/bash
+#####################################################################################################
+if [ ${domainnumber} = 1 ];then
+echo -n "parent domain start day:"
+read firstdomsday
+echo -n "parent domain start hour:"
+read firstdomshour
+export firstdomsday
+export firstdomshour
+elif [ ${domainnumber} = 2 ]; then
+echo -n "parent domain start day:"
+read firstdomsday
+echo -n "parent domain start hour:"
+read firstdomshour
+echo -n "secondary domain start day:"
+read seconddomsday
+echo -n "secondary domain start hour:"
+read seconddomshour
+export firstdomsday
+export firstdomshour
+export seconddomsday
+export seconddomshour
+elif [ ${domainnumber} = 3 ]; then
+echo -n "parent domain start day:"
+read firstdomsday
+echo -n "parent domain start hour:"
+read firstdomshour
+echo -n "secondary domain start day:"
+read seconddomsday
+echo -n "secondary domain start hour:"
+read seconddomshour
+echo -n "third domain start day:"
+read thirddomsday
+echo -n "third domain start hour:"
+read thirddomshour
+export firstdomsday
+export firstdomshour
+export seconddomsday
+export seconddomshour
+export thirddomsday
+export thirddomshour
+elif [ ${domainnumber} = 4 ]; then
+echo -n "parent domain start day:"
+read firstdomsday
+echo -n "parent domain start hour:"
+read firstdomshour
+echo -n "secondary domain start day:"
+read seconddomsday
+echo -n "secondary domain start hour:"
+read seconddomshour
+echo -n "third domain start day:"
+read thirddomsday
+echo -n "third domain start hour:"
+read thirddomshour
+echo -n "fourth domain start day:"
+read fourthdomsday
+echo -n "fourth domain start hour:"
+read fourthdomshour
+export firstdomsday
+export firstdomshour
+export seconddomsday
+export seconddomshour
+export thirddomsday
+export thirddomshour
+export fourthdomsday
+export fourthdomshour
+else
+echo "*****This file does NOT deal with the case of domainnumber being 5 or more!!!!! ******"
+echo "now...We print the start_date of the case of four domain..."
+#
+echo -n "parent domain start day:"
+read firstdomsday
+echo -n "parent domain start hour:"
+read firstdomshour
+echo -n "secondary domain start day:"
+read seconddomsday
+echo -n "secondary domain start hour:"
+read seconddomshour
+echo -n "third domain start day:"
+read thirddomsday
+echo -n "third domain start hour:"
+read thirddomshour
+echo -n "fourth domain start day:"
+read fourthdomsday
+echo -n "fourth domain start hour:"
+read fourthdomshour
+export firstdomsday
+export firstdomshour
+export seconddomsday
+export seconddomshour
+export thirddomsday
+export thirddomshour
+export fourthdomsday
+export fourthdomshour
+fi
+#####################################
+echo -n "run hour:"
+read runhour
+export runhour
+#####################################################################################################
+

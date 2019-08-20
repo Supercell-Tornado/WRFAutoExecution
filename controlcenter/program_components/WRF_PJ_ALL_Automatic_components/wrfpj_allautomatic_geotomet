@@ -1,0 +1,226 @@
+#!/bin/bash
+sleeptime=5
+####################################################################
+source ${PROGRAMplace}/share/coloring_setting
+####################################################################
+#
+#
+#
+#===================================================================
+#== [ function ] ===================================================
+#===================================================================
+
+function _MANALcase_namelistwpsedit_and_ungrib_() {
+####################################################################
+####################################################################
+#[preprocessing for metgrid job]
+    ######[edit fg_name of metgrid]
+    sed -i -e "s@fg_name = 'FILE'\,@fg_name = 'FNL'\,'MANAL'\,@g" ${DOMAINDIR}/namelist.wps
+####################################################################
+####################################################################
+####################################################################
+####################################################################
+    echo "----------------------------------------------------------" | ${Log}
+####################################################################
+####[ungrib jobs]
+####################################################################
+#[preprocessing for ungrib of FNL]
+    #[edit prefix name of ungrib for FNL]
+    #first_prefix=FILE
+    sed -i -e "s@prefix = 'FILE'\,\|prefix = 'MANAL'\,@prefix = 'FNL'\,@g" ${DOMAINDIR}/namelist.wps
+    ###################################
+    #[ungrib for FNL DATA]
+    #[create some lisks associated with each DATA]
+    echo -e "\nWe will link NCEP-FNL DATA to $(echo $(pwd))!!!\n" | ${Log}
+    ${WRF_HOME}/WPS/link_grib.csh ${DATAPATH_FNL}
+####################################################################
+#[ungrib.exe]
+    echocyan "ungrib.exe job for NCEP-FNL is starting Now..."
+    sleep ${sleeptime}
+    echo -e "\n==========ungrib for NECEP-FNL==========\n" | ${Log}
+    ${WRF_HOME}/WPS/ungrib.exe
+    echo -e "\n==========ungrib for NECEP-FNL==========\n" | ${Log}
+    _ungribjobresult_ first NCEP-FNL
+    ###################################
+    #[remove GRIBFILE of FNL]
+    #rm ${DOMAINDIR}/GRIBFILE.A*
+    rename GRIBFILE.A FNLFILE.B GRIBFILE.A*
+    echo -e "We remaned GRIBFILE of FNL...\n" | ${Log}
+    #sleep 5
+####################################################################
+####################################################################
+    echo "----------------------------------------------------------" | ${Log}
+####################################################################
+####################################################################
+#[preprocessing for ungrib of MANAL]
+    #[edit prefix name of ungrib for MANAL]
+    sed -i -e "s@prefix = 'FNL'\,@prefix = 'MANAL'\,@g" ${DOMAINDIR}/namelist.wps
+    ###################################
+    #[create some lisks associated with each DATA]
+    echo -e "\nWe will link MANAL DATA to $(echo $(pwd))!!!\n" | ${Log}
+    ${WRF_HOME}/WPS/link_grib.csh ${DATAPATH_MANAL}
+####################################################################
+#[ungrib.exe]
+    #[ungrib for MANAL DATA]
+    echocyan "ungrib.exe job for MANAL is starting Now..."
+    sleep ${sleeptime}
+    echo -e "\n==========ungrib for MANAL==========\n" | ${Log}
+    ${WRF_HOME}/WPS/ungrib.exe
+    echo -e "\n==========ungrib for MANAL==========\n" | ${Log}
+    _ungribjobresult_ second MANAL
+    ###################################
+    #[rename GRIBFILE of MANAL]
+    rename GRIBFILE.A MANALFILE.C GRIBFILE.A*
+    echo -e "We remaned GRIBFILE of MANAL...\n" | ${Log}
+####################################################################
+####[ungrib jobs]
+####################################################################
+    #echo -e "\n\n*****************Wate a second time!*****************\n...\n\n" | ${Log}
+    #(insert program)
+    #sleep ${sleeptime}
+    echo "----------------------------------------------------------" | ${Log}
+}
+
+
+
+
+
+function _FNLcase_namelistwpsedit_and_ungrib_() {
+####################################################################
+####################################################################
+#[preprocessing for metgrid job]
+    ######[edit fg_name of metgrid]
+    sed -i -e "s@fg_name = 'FILE'\,@fg_name = 'FNL'\,@g" ${DOMAINDIR}/namelist.wps
+####################################################################
+####################################################################
+####################################################################
+####################################################################
+    echo "----------------------------------------------------------" | ${Log}
+####################################################################
+####[ungrib jobs]
+####################################################################
+#[preprocessing for ungrib of FNL]
+    #[edit prefix name of ungrib for FNL]
+    #first_prefix=FILE
+    sed -i -e "s@prefix = 'FILE'\,@prefix = 'FNL'\,@g" ${DOMAINDIR}/namelist.wps
+    ###################################
+    #[ungrib for FNL DATA]
+    #[create some lisks associated with each DATA]
+    echo -e "\nWe will link NCEP-FNL DATA to $(echo $(pwd))!!!\n" | ${Log}
+    ${WRF_HOME}/WPS/link_grib.csh ${DATAPATH_FNL}
+####################################################################
+#[ungrib.exe]
+    echocyan "ungrib.exe job for NCEP-FNL is starting Now..."
+    sleep ${sleeptime}
+    echo -e "\n==========ungrib for NECEP-FNL==========\n" | ${Log}
+    ${WRF_HOME}/WPS/ungrib.exe
+    echo -e "\n==========ungrib for NECEP-FNL==========\n" | ${Log}
+    _ungribjobresult_ first NCEP-FNL
+    ###################################
+    #[remove GRIBFILE of FNL]
+    #rm ${DOMAINDIR}/GRIBFILE.A*
+    rename GRIBFILE.A FNLFILE.B GRIBFILE.A*
+    echo -e "We remaned GRIBFILE of FNL...\n" | ${Log}
+    #sleep 5
+####################################################################
+####[ungrib jobs]
+####################################################################
+    echo "----------------------------------------------------------" | ${Log}
+}
+
+
+
+
+
+function _ungribjobresult_ () {
+if [ "$?" != "0" ]; then
+echo -e "the $1 ungrib job is failure... \n
+Stoped" | ${Log}
+exit;
+fi
+echo -e "the $1 execution of ungrib.exe for $2 is $?
+if this value is... 0 => success , 1 => failure" | ${Log}
+echo "" | ${Log}
+}
+
+#===================================================================
+#== [ function ] ===================================================
+#===================================================================
+
+
+
+
+
+cd ${DOMAINDIR}
+################################################################
+#[excute geogrid.exe(make topography data)]
+#echo -n "Are you sure to execute from geogrid to metgrid jobs?[yes/no]:"
+echoncyan "Are you sure to execute from geogrid to metgrid jobs?[yes/no]:"
+read previousjobs
+if [ "$previousjobs" = "yes" ]; then
+    echo -e "\ngeogrid to metgrid jobs are starting now..."
+#********************************************************************
+#*****************************geo to met*****************************
+#********************************************************************
+    echo "" | ${Log}
+    echo "**********************************************************" | ${Log}
+    echo "************************geo to met************************" | ${Log}
+    echo "**********************************************************" | ${Log}
+####################################################################
+####[geogrid job]
+####################################################################
+    echo "" | ${Log}
+    echo -e "\n==========geogrid==========\n" | ${Log}
+    ${WRF_HOME}/WPS/geogrid.exe | ${Log}
+    echo -e "\n==========geogrid==========\n" | ${Log}
+    _failureoutlog_ geogrid
+    _resultjob_ geogrid.exe
+    echo "" | ${Log}
+####################################################################
+####[geogrid job]
+####################################################################
+
+
+####################################################################
+#[ editting of namelist.wps and execution of ungrib job(s) ]
+    if [ "${SIMULATION_TYPE}" = "MANAL" ]; then
+        _MANALcase_namelistwpsedit_and_ungrib_
+    elif [ "${SIMULATION_TYPE}" = "FNL" ]; then
+        _FNLcase_namelistwpsedit_and_ungrib_
+    else
+        echo -e "\nDo Not deal with that simulation\nStopped" | ${Log}; exit
+    fi
+####################################################################
+
+
+####################################################################
+####[metgrid job]
+####################################################################
+    #[excute metgrid.exe]
+    echocyan "\nmetgrid.exe job is starting Now..."
+    sleep ${sleeptime}
+    echo -e "\n==========metgrid==========\n" | ${Log}
+    ${WRF_HOME}/WPS/metgrid.exe | ${Log}
+    echo -e "\n==========metgrid==========\n" | ${Log}
+    _failureoutlog_ metgrid
+    _resultjob_ metgrid.exe
+    echo -e "\n" | ${Log}
+####################################################################
+####[metgrid job]
+####################################################################
+    echo "**********************************************************" | ${Log}
+    echo "************************geo to met************************" | ${Log}
+    echo "**********************************************************" | ${Log}
+    echo "" | ${Log}
+#********************************************************************
+#*****************************geo to met*****************************
+#********************************************************************
+else
+  echonyellow "Do you want to continue this job(WRF-PJ-All-Automatic.sh)?(if no=>stop)[yes/no]:"
+  read previousjobs2
+  if [ "$previousjobs2" != "yes" ]; then
+    echo "Stoped"
+    exit;
+  fi
+fi
+####################################################################

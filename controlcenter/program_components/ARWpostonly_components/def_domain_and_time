@@ -1,0 +1,83 @@
+#!/bin/bash
+################################################################
+source ${PROGRAMplace}/share/coloring_setting
+################################################################
+#[definition of variables]
+
+echonblue "Your Domain Number:"
+read domainnumber
+export domainnumber
+
+if [ ${domainnumber} = 1 ];then
+echo -n "parent domain start day:"
+read firstdomainstartday
+echo -n "parent domain start hour:"
+read firstdomainstarthour
+export firstdomainstartday
+export firstdomainstarthour
+elif [ ${domainnumber} = 2 ]; then
+echo -n "parent domain start day:"
+read firstdomainstartday
+echo -n "parent domain start hour:"
+read firstdomainstarthour
+echonblue "secondary domain start day:"
+read seconddomainstartday
+echonblue "secondary domain start hour:"
+read seconddomainstarthour
+export firstdomainstartday
+export firstdomainstarthour
+export seconddomainstartday
+export seconddomainstarthour
+elif [ ${domainnumber} = 3 ]; then
+echo -n "parent domain start day:"
+read firstdomainstartday
+echo -n "parent domain start hour:"
+read firstdomainstarthour
+echonblue "secondary domain start day:"
+read seconddomainstartday
+echonblue "secondary domain start hour:"
+read seconddomainstarthour
+echongreen "third domain start day:"
+read thirddomainstartday
+echongreen "third domain start hour:"
+read thirddomainstarthour
+export firstdomainstartday
+export firstdomainstarthour
+export seconddomainstartday
+export seconddomainstarthour
+export thirddomainstartday
+export thirddomainstarthour
+elif [ ${domainnumber} = 4 ]; then
+echo -n "parent domain start day:"
+read firstdomainstartday
+echo -n "parent domain start hour:"
+read firstdomainstarthour
+echonblue "secondary domain start day:"
+read seconddomainstartday
+echonblue "secondary domain start hour:"
+read seconddomainstarthour
+echongreen "third domain start day:"
+read thirddomainstartday
+echongreen "third domain start hour:"
+read thirddomainstarthour
+echonyellow "fourth domain start day:"
+read fourthdomainstartday
+echonyellow "fourth domain start hour:"
+read fourthdomainstarthour
+export firstdomainstartday
+export firstdomainstarthour
+export seconddomainstartday
+export seconddomainstarthour
+export thirddomainstartday
+export thirddomainstarthour
+export fourthdomainstartday
+export fourthdomainstarthour
+else
+echo "*****This file does NOT deal with the case of domainnumber being 5 or more!!!!! ******"
+echo -e "This file is NOT deal with 5 or more domain!!!\n
+Stoped" | ${Log}
+exit;
+fi
+
+################################################################
+

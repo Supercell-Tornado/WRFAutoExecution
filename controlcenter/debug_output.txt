@@ -1,0 +1,264 @@
++ [edit_partofnamelist.sh:8] : PS4='$LINENO: '
+9: set -x
+11: PROGRAMLOCALE=/home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL
+12: SubPROGRAMLOCALE=/home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/edit_partofnamelist_components
+25: export eday=09
+25: eday=09
+26: export ehour=06
+26: ehour=06
+28: export PBLscheme=5
+28: PBLscheme=5
+30: export year=2017
+30: year=2017
+31: export month=08
+31: month=08
+33: DOMAINDIR=/home/inokuchi/WRFV3.7.1/domain
+34: export DOMAINDIR
+35: echo -n 'Project Name:'
+36: read PROJECT
+37: export PROJECT
+38: echo -n 'domain number:'
+39: read domainnumber
+40: export domainnumber
+43: source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/edit_partofnamelist_components/usersetting
+22: DROBO_HOME=/mnt/drobo/inokuchi/WRFV3.7.1
+33: export WORKDIR=/mnt/drobo/inokuchi/WRFV3.7.1/work/test6
+33: WORKDIR=/mnt/drobo/inokuchi/WRFV3.7.1/work/test6
+46: source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/edit_partofnamelist_components/call_domain_and_time
+22: '[' 2 = 1 ']'
+99: '[' 2 = 2 ']'
+110: echo -n 'parent domain start day:'
+111: read firstdomsday
+112: echo -n 'parent domain start hour:'
+113: read firstdomshour
+114: echo -n 'secondary domain start day:'
+115: read seconddomsday
+116: echo -n 'secondary domain start hour:'
+117: read seconddomshour
+118: export firstdomsday
+119: export firstdomshour
+220: export seconddomsday
+221: export seconddomshour
+996: echo -n 'run hour:'
+997: read runhour
+998: export runhour
+49: source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/edit_partofnamelist_components/edit_namelistwps
+44: NAMELISTWPS=/home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+114: '[' 2 = 1 ']'
+116: '[' 2 = 2 ']'
+117: wps_1d_shour=12
+118: wps_2d_shour=12
+334: wps_ehour=06
+4440: grep -n start_date /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+4440: sed -e 's/:.*//g'
+440: line_number_start_date=4
+4441: awk NR==4 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+441: pre_wps_start_date=' start_date = '\''2017-08-08_12:00:00'\'', '\''2017-08-08_12:00:00'\'','
+443: '[' 2 = 1 ']'
+445: '[' 2 = 2 ']'
+446: wps_start_date=' start_date = '\''2017-08-08_12:00:00'\'', '\''2017-08-08_12:00:00'\'','
+5558: grep -n end_date /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+5558: sed -e 's/:.*//g'
+558: line_number_end_date=5
+5559: awk NR==5 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+559: pre_wps_end_date=' end_date   = '\''2017-08-09_06:00:00'\'', '\''2017-08-09_06:00:00'\'','
+660: '[' 2 = 1 ']'
+662: '[' 2 = 2 ']'
+663: wps_end_date=' end_date   = '\''2017-08-09_06:00:00'\'', '\''2017-08-09_06:00:00'\'','
+774: sed -i -e 's@ start_date = '\''2017-08-08_12:00:00'\'', '\''2017-08-08_12:00:00'\'',@ start_date = '\''2017-08-08_12:00:00'\'', '\''2017-08-08_12:00:00'\'',@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+775: sed -i -e 's@ end_date   = '\''2017-08-09_06:00:00'\'', '\''2017-08-09_06:00:00'\'',@ end_date   = '\''2017-08-09_06:00:00'\'', '\''2017-08-09_06:00:00'\'',@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+777: echo ''
+778: echo '****************************************************'
+779: echo 'Please confirm the number of date(=domain number)'
+880: cat /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+880: grep start_date
+881: cat /home/inokuchi/WRFV3.7.1/domain/test6/namelist.wps
+881: grep end_date
+882: echo '****************************************************'
+52: NAMELISTDIR=/home/inokuchi/WRFV3.7.1/domain/test6
+53: NAMELIST=/home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+54: cd /home/inokuchi/WRFV3.7.1/domain/test6
+56: echo '
+'
+59: '[' 2 = 1 ']'
+61: '[' 2 = 2 ']'
+62: source /home/inokuchi/WRFV3.7.1/controlcenter/FNLandMANAL/program_components/edit_partofnamelist_components/edit_partofnamelist2
+224: echo '******2******'
+226: '[' 12 '!=' 12 ']'
+442: replacevalue run_hours 'run_hours                = 18,'
+116: valuename=run_hours
+1117: grep -n run_hours /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=3
+1118: awk NR==3 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='run_hours                = 18,'
+119: value='run_hours                = 18,'
+220: sed -i -e 's@run_hours                = 18,@run_hours                = 18,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+448: replacevalue start_year 'start_year               = 2017,     2017,'
+116: valuename=start_year
+1117: grep -n start_year /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=6
+1118: awk NR==6 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='start_year               = 2017,     2017,'
+119: value='start_year               = 2017,     2017,'
+220: sed -i -e 's@start_year               = 2017,     2017,@start_year               = 2017,     2017,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+554: replacevalue start_month 'start_month              = 08,        08,'
+116: valuename=start_month
+1117: grep -n start_month /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=7
+1118: awk NR==7 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='start_month              = 08,       08,'
+119: value='start_month              = 08,        08,'
+220: sed -i -e 's@start_month              = 08,       08,@start_month              = 08,        08,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+660: replacevalue start_day 'start_day                = 08,       08,'
+116: valuename=start_day
+1117: grep -n start_day /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=8
+1118: awk NR==8 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='start_day                = 08,       08,'
+119: value='start_day                = 08,       08,'
+220: sed -i -e 's@start_day                = 08,       08,@start_day                = 08,       08,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+666: replacevalue start_hour 'start_hour               = 12,       12,'
+116: valuename=start_hour
+1117: sed -e 's/:.*//g'
+1117: grep -n start_hour /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+117: line_number_valuename=9
+1118: awk NR==9 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='start_hour               = 18,       18,'
+119: value='start_hour               = 12,       12,'
+220: sed -i -e 's@start_hour               = 18,       18,@start_hour               = 12,       12,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+772: replacevalue end_year 'end_year                 = 2017,     2017,'
+116: valuename=end_year
+1117: grep -n end_year /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=12
+1118: awk NR==12 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='end_year                 = 2017,     2017,'
+119: value='end_year                 = 2017,     2017,'
+220: sed -i -e 's@end_year                 = 2017,     2017,@end_year                 = 2017,     2017,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+778: replacevalue end_month 'end_month                = 08,        08,'
+116: valuename=end_month
+1117: grep -n end_month /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=13
+1118: awk NR==13 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='end_month                = 08,       08,'
+119: value='end_month                = 08,        08,'
+220: sed -i -e 's@end_month                = 08,       08,@end_month                = 08,        08,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+884: replacevalue end_day 'end_day                  = 09,       09,'
+116: valuename=end_day
+1117: grep -n end_day /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=14
+1118: awk NR==14 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='end_day                  = 09,       09,'
+119: value='end_day                  = 09,       09,'
+220: sed -i -e 's@end_day                  = 09,       09,@end_day                  = 09,       09,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+990: replacevalue end_hour 'end_hour                 = 06,       06,'
+116: valuename=end_hour
+1117: grep -n end_hour /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=15
+1118: awk NR==15 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='end_hour                 = 06,       06,'
+119: value='end_hour                 = 06,       06,'
+220: sed -i -e 's@end_hour                 = 06,       06,@end_hour                 = 06,       06,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+996: replacevalue interval_seconds 'interval_seconds         = 21600,    21600,'
+116: valuename=interval_seconds
+1117: grep -n interval_seconds /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=18
+1118: awk NR==18 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='interval_seconds         = 21600,'
+119: value='interval_seconds         = 21600,    21600,'
+220: sed -i -e 's@interval_seconds         = 21600,@interval_seconds         = 21600,    21600,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1102: replacevalue history_interval 'history_interval         = 5,        5,'
+116: valuename=history_interval
+1117: grep -n history_interval /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=20
+1118: awk NR==20 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='history_interval         = 5,        5,'
+119: value='history_interval         = 5,        5,'
+220: sed -i -e 's@history_interval         = 5,        5,@history_interval         = 5,        5,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1108: replacevalue frames_per_outfile 'frames_per_outfile       = 1000,     1000,'
+116: valuename=frames_per_outfile
+1117: grep -n frames_per_outfile /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=21
+1118: awk NR==21 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='frames_per_outfile       = 1000,     1000,'
+119: value='frames_per_outfile       = 1000,     1000,'
+220: sed -i -e 's@frames_per_outfile       = 1000,     1000,@frames_per_outfile       = 1000,     1000,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1124: replacevalue e_vert 'e_vert                   = 52,       52,'
+116: valuename=e_vert
+1117: grep -n e_vert /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=38
+1118: awk NR==38 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='e_vert                   = 100,      100,'
+119: value='e_vert                   = 52,       52,'
+220: sed -i -e 's@e_vert                   = 100,      100,@e_vert                   = 52,       52,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+11126: grep -n eta_levels /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+11126: sed -e 's/:.*//g'
+1126: line_number_eta_levels=
+11127: awk NR== /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1127: EtaLevel=
+1128: [[ '' =~ eta_levels ]]
+1131: sed -i -e 'a\eta_levels               = 1.000, 0.9948, 0.9896, 0.9844, 0.9793,\n                 0.9741, 0.9688, 0.9631, 0.957, 0.9505, \n                 0.9436, 0.936, 0.9278, 0.9188, 0.9089, \n                 0.8979, 0.8858, 0.8723, 0.8574, 0.8409, \n                 0.8226, 0.8024, 0.7803, 0.7561, 0.7299, \n                 0.7018, 0.6717, 0.6399, 0.6067, 0.5722, \n                 0.5369, 0.5009, 0.4648, 0.4289, 0.3933, \n                 0.3585, 0.3247, 0.2921, 0.2609, 0.2311, \n                 0.2029, 0.1764, 0.1515, 0.1257, 0.1043, \n                 0.0848, 0.0671, 0.0509, 0.0362, 0.0229, \n                 0.0109, 0.000\n,' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1149: replacevalue p_top_requested 'p_top_requested          = 5000,'
+116: valuename=p_top_requested
+1117: grep -n p_top_requested /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=495
+1118: awk NR==495 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='p_top_requested          = 5000.0,'
+119: value='p_top_requested          = 5000,'
+220: sed -i -e 's@p_top_requested          = 5000.0,@p_top_requested          = 5000,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1155: replacevalue num_metgrid_levels 'num_metgrid_levels       = 32,'
+116: valuename=num_metgrid_levels
+1117: grep -n num_metgrid_levels /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=508
+1118: awk NR==508 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='num_metgrid_levels       = 32,'
+119: value='num_metgrid_levels       = 32,'
+220: sed -i -e 's@num_metgrid_levels       = 32,@num_metgrid_levels       = 32,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1161: replacevalue mp_physics 'mp_physics               = 6,        6,'
+116: valuename=mp_physics
+1117: grep -n mp_physics /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=703
+1118: awk NR==703 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='mp_physics               = 6,        6,'
+119: value='mp_physics               = 6,        6,'
+220: sed -i -e 's@mp_physics               = 6,        6,@mp_physics               = 6,        6,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1167: replacevalue bl_pbl_physics 'bl_pbl_physics           = 5,        5,'
+116: valuename=bl_pbl_physics
+1117: grep -n bl_pbl_physics /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1117: sed -e 's/:.*//g'
+117: line_number_valuename=781
+1118: awk NR==781 /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+118: prevalue='bl_pbl_physics           = 5,        5,'
+119: value='bl_pbl_physics           = 5,        5,'
+220: sed -i -e 's@bl_pbl_physics           = 5,        5,@bl_pbl_physics           = 5,        5,@g' /home/inokuchi/WRFV3.7.1/domain/test6/namelist.input
+1169: echo '******2******'
+1170: echo -e '
+
+focus on following...
+run_days
+start_day
+start_hour
+\n
+(In case of nesting simulation with different start times for each domain)
+fine_input_stream
+io_form_auxinput2
+
+time_step
+feedback
+cu_physics
+w_damping'
+1185: exit

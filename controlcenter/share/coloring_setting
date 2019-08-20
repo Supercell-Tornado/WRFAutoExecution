@@ -1,0 +1,48 @@
+#!/bin/bash
+#set -x
+##########################################################
+#<<<-----Caution----->>>
+#Please use for standard output case
+#<<<-----Caution----->>>
+##########################################################
+#memo
+#bold単体ではシステムの設定で黄色に出力される模様！
+##########################################################
+#[setting of coloring]
+reset=$(tput sgr0)
+bold=$(tput bold)
+red=$(tput setaf 1)
+green=$(tput setaf 2)${bold}
+yellow=$(tput setaf 3)${bold}
+blue=$(tput setaf 4)${bold}
+magenta=$(tput setaf 5)
+cyan=$(tput setaf 6)${bold}
+white=$(tput setaf 7)${bold}
+ul=$(tput sgr 0 1) #Underline
+echo "${reset}"
+#[end of the settingof coloring]
+##########################################################
+function echobold() { echo -e "${bold}$1${reset}"; }
+function echored() { echo -e "${red}$1${reset}"; }
+function echogreen() { echo -e "${green}$1${reset}"; }
+function echoyellow() { echo -e "${yellow}$1${reset}"; }
+function echoblue() { echo -e "${blue}$1${reset}"; }
+function echomagenta() { echo -e "${magenta}$1${reset}"; }
+function echocyan() { echo -e "${cyan}$1${reset}"; }
+function echowhite() { echo -e "${white}$1${reset}"; }
+function echoul() { echo -e "${ul}$1${reset}"; }
+#[memo] The case of some color & underline
+#${cyan}${ul}Please enter the letter you want to output!${reset}
+##########################################################
+function echonbold() { echo -n "${bold}$1${reset}"; }
+function echonred() { echo -n "${red}$1${reset}"; }
+function echongreen() { echo -n "${green}$1${reset}"; }
+function echonyellow() { echo -n "${yellow}$1${reset}"; }
+function echonblue() { echo -n "${blue}$1${reset}"; }
+function echonmagenta() { echo -n "${magenta}$1${reset}"; }
+function echoncyan() { echo -n "${cyan}$1${reset}"; }
+function echonwhite() { echo -n "${white}$1${reset}"; }
+function echonul() { echo -n "${ul}$1${reset}"; }
+##########################################################
+#set +x
+

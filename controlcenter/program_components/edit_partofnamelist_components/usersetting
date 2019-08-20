@@ -1,0 +1,6 @@
+#!/bin/bash
+DROBO_HOME="/mnt/drobo/inokuchi/WRFV3.7.1"
+export WORKDIR="${DROBO_HOME}/work/${PROJECT}"
+
+
+
